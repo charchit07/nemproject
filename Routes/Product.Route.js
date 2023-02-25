@@ -134,7 +134,7 @@ productRoute.get("/", async (req, res) => {
   else {
     const product = await ProductModel.find();
     res.send(product);
- 
+  }
 });
 
 productRoute.post("/create", async (req, res) => {
