@@ -21,10 +21,7 @@ productRoute.get("/", async (req, res) => {
   const gender=req.query.gender
   const price=req.query.pHL || req.query.pLH
   const rating = req.query.rating
-  
-//   const arr = [price,rating]
-//   for(let i=0;i<arr.length;i++){
-//     if(arr[i]){
+
    if(category && gender && brand){
     try {
         let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{gender:gender},{brand: { $regex: `${brand}`, $options: "i" },}]}).sort({price:price,rating:rating})
