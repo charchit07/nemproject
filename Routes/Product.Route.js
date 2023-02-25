@@ -39,6 +39,15 @@ productRoute.get("/", async (req, res) => {
         res.status(500).send({message:err.message})
     }
   }
+    else if(brand && gender){
+    try {
+        let productData =await ProductModel.find({$and:[{brand: { $regex: `${brand}`, $options: "i" }},{gender:gender}]})
+        res.send(productData)
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({message:err.message})
+    }
+  }
       else if(category && brand){
     try {
         let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{brand:brand}]}).sort({brand:1})
