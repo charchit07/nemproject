@@ -135,7 +135,7 @@ for(let i=0;i<arr.length;i++){
   else {
     const product = await ProductModel.find();
     res.send(product);
-  }
+  }}
 }
 });
 
