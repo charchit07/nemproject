@@ -17,9 +17,10 @@ productRoute.get("/", async (req, res) => {
    const max = req.query.max;
   const category =req.query.category
   const brand=req.query.brand
-//   const price=req.query.price
+  const price=req.query.price
   const gender=req.query.gender
-  const price=req.query.pHL || req.query.pLH
+  const high=req.query.pHL 
+  const low = req.query.pLH
   const rating = req.query.rating
 
    if(category && gender && brand){
