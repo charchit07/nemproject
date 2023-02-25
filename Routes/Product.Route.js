@@ -23,7 +23,7 @@ productRoute.get("/", async (req, res) => {
   const rating = req.query.rating
 // const arr=[price,rating]
 // for(let i=0;i<arr.length;i++){
-//   if(arr[i]!=null){
+   if(price){
    if(category && gender && brand){
     try {
         let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{gender:gender},{brand: { $regex: `${brand}`, $options: "i" },}]}).sort({price:price})
@@ -35,7 +35,7 @@ productRoute.get("/", async (req, res) => {
   }
     else if(category && gender){
     try {
-        let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{gender:gender}]})
+        let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{gender:gender}]}).sort({price:price})
         res.send(productData)
     } catch (err) {
         console.log(err)
@@ -44,7 +44,7 @@ productRoute.get("/", async (req, res) => {
   }
     else if(brand && gender){
     try {
-        let productData =await ProductModel.find({$and:[{brand: { $regex: `${brand}`, $options: "i" }},{gender:gender}]})
+        let productData =await ProductModel.find({$and:[{brand: { $regex: `${brand}`, $options: "i" }},{gender:gender}]}).sort({price:price})
         res.send(productData)
     } catch (err) {
         console.log(err)
@@ -53,7 +53,7 @@ productRoute.get("/", async (req, res) => {
   }
       else if(category && brand){
     try {
-        let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{brand:brand}]})
+        let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{brand:brand}]}).sort({price:price})
         res.send(productData)
     } catch (err) {
         console.log(err)
@@ -64,37 +64,117 @@ productRoute.get("/", async (req, res) => {
     try {
       const productData = await ProductModel.find({
         category: { $regex: `${category}`, $options: "i" },
-      });
+      }).sort({price:price})
       res.send(productData);
     } catch (err) {
       res.status(500).send({ message: err.message });
     }
   } else if (gender) {
     try {
-      const productData = await ProductModel.find({gender:gender});
+      const productData = await ProductModel.find({gender:gender}).sort({price:price})
       res.send(productData);
     } catch (err) {
       res.status(500).send({ message: err.message });
     }
   }
+
+  else if(brand){
+    try {
+      const productData = await ProductModel.find({
+        brand: { $regex: `${brand}`, $options: "i" }.sort({price:price})
+      });
+      res.send(productData);
+    } catch (error) {
+      res.status(500).send({ message: err.message });
+    }}
+    else {
+    const product = await ProductModel.find().sort({price:price})
+    res.send(product);
+}}
+  
+  
+     if(rating){
+   if(category && gender && brand){
+    try {
+        let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{gender:gender},{brand: { $regex: `${brand}`, $options: "i" },}]}).sort({rating:rating})
+        res.send(productData)
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({message:err.message})
+    }
+  }
+    else if(category && gender){
+    try {
+        let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{gender:gender}]}).sort({rating:rating})
+        res.send(productData)
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({message:err.message})
+    }
+  }
+    else if(brand && gender){
+    try {
+        let productData =await ProductModel.find({$and:[{brand: { $regex: `${brand}`, $options: "i" }},{gender:gender}]}).sort({rating:rating})
+        res.send(productData)
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({message:err.message})
+    }
+  }
+      else if(category && brand){
+    try {
+        let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{brand:brand}]}).sort({rating:rating})
+        res.send(productData)
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({message:err.message})
+    }
+  }
+  else if (category) {
+    try {
+      const productData = await ProductModel.find({
+        category: { $regex: `${category}`, $options: "i" },
+      }).sort({rating:rating})
+      res.send(productData);
+    } catch (err) {
+      res.status(500).send({ message: err.message });
+    }
+  } else if (gender) {
+    try {
+      const productData = await ProductModel.find({gender:gender}).sort({rating:rating})
+      res.send(productData);
+    } catch (err) {
+      res.status(500).send({ message: err.message });
+    }
+  }
+
+  else if(brand){
+    try {
+      const productData = await ProductModel.find({
+        brand: { $regex: `${brand}`, $options: "i" }.sort({rating:rating})
+      });
+      res.send(productData);
+    } catch (error) {
+      res.status(500).send({ message: err.message });
+    }}
+    else {
+    const product = await ProductModel.find().sort({rating:rating})
+    res.send(product);
+}}
+  
+  
+  
+});
+
 //    else if(max && min && brand){
 //     try {
-//         let productData =await ProductModel.find({$and:[{price:{$gt:min}},{price:{$lt:max}},{brand: { $regex: `${brand}`, $options: "i" },}]})
+//         let productData =await ProductModel.find({$and:[{price:{$gt:min}},{price:{$lt:max}},{brand: { $regex: `${brand}`, $options: "i" },}]}).sort({price:price})
 //         res.send(productData)
 //     } catch (err) {
 //         console.log(err)
 //         res.status(500).send({message:err.message})
 //     }
 //   } 
-  else if(brand){
-    try {
-      const productData = await ProductModel.find({
-        brand: { $regex: `${brand}`, $options: "i" },
-      });
-      res.send(productData);
-    } catch (error) {
-      res.status(500).send({ message: err.message });
-    }}
 //   } else if(high){
 //     try {
       
@@ -132,11 +212,7 @@ productRoute.get("/", async (req, res) => {
 //         res.status(500).send({message:err.message})
 //     }
 // } 
-  else {
-    const product = await ProductModel.find();
-    res.send(product);
-}
-});
+
 
 productRoute.post("/create", async (req, res) => {
   try {
