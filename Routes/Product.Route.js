@@ -164,7 +164,7 @@ productRoute.delete("/delete/:id", async (req, res) => {
     res.send({msg:`Product with id:${ID} has been deleted`})
   } catch (err) {
     res.status(500).send({ message: err.message });
-  
+  }
 });
 
 module.exports = { productRoute };
