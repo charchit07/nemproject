@@ -94,7 +94,7 @@ productRoute.get("/", async (req, res) => {
   
   
  
-   if(category && gender && brand){
+ else  if(category && gender && brand){
     try {
         let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{gender:gender},{brand: { $regex: `${brand}`, $options: "i" },}]}).sort({rating:rating})
         res.send(productData)
