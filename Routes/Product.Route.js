@@ -92,7 +92,7 @@ productRoute.get("/", async (req, res) => {
       res.send(productData);
     } catch (error) {
       res.status(500).send({ message: err.message });
-    }
+    }}
 //   } else if(high){
 //     try {
       
