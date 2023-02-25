@@ -136,6 +136,7 @@ for(let i=0;i<arr.length;i++){
     const product = await ProductModel.find();
     res.send(product);
   }
+}
 });
 
 productRoute.post("/create", async (req, res) => {
