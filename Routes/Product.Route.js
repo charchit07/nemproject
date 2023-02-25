@@ -22,12 +22,12 @@ productRoute.get("/", async (req, res) => {
   const price=req.query.pHL || req.query.pLH
   const rating = req.query.rating
   
-  const arr = [price,rating]
-  for(let i=0;i<arr.length;i++){
-    if(arr[i]){
+//   const arr = [price,rating]
+//   for(let i=0;i<arr.length;i++){
+//     if(arr[i]){
    if(category && gender && brand){
     try {
-        let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{gender:gender},{brand: { $regex: `${brand}`, $options: "i" },}]}).sort({arr[i]:arr[i]})
+        let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{gender:gender},{brand: { $regex: `${brand}`, $options: "i" },}]}).sort({price:price,rating:rating})
         res.send(productData)
     } catch (err) {
         console.log(err)
@@ -166,7 +166,7 @@ productRoute.delete("/delete/:id", async (req, res) => {
     res.send({msg:`Product with id:${ID} has been deleted`})
   } catch (err) {
     res.status(500).send({ message: err.message });
-  }
+  
 });
 
 module.exports = { productRoute };
