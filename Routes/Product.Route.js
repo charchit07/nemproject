@@ -19,11 +19,15 @@ productRoute.get("/", async (req, res) => {
   const brand=req.query.brand
   const price=req.query.price
   const gender=req.query.gender
-  const high=req.query.pHL
-  const low=req.query.pLH
+  const price=req.query.pHL || req.query.pLH
+  const rating = req.query.rating
+  
+  const arr = [price,rating]
+  for(let i=0;i<arr.length;i++){
+    if(arr[i]){
    if(category && gender && brand){
     try {
-        let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{gender:gender},{brand: { $regex: `${brand}`, $options: "i" },}]})
+        let productData =await ProductModel.find({$and:[{category: { $regex: `${category}`, $options: "i" }},{gender:gender},{brand: { $regex: `${brand}`, $options: "i" },}]}).sort({arr[i]:arr[i]})
         res.send(productData)
     } catch (err) {
         console.log(err)
@@ -132,7 +136,7 @@ productRoute.get("/", async (req, res) => {
   else {
     const product = await ProductModel.find();
     res.send(product);
-  }
+  }}
 });
 
 productRoute.post("/create", async (req, res) => {
