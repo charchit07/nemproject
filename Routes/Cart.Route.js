@@ -18,41 +18,42 @@ cartRoute.get('/', authenticate,async (req, res) => {
 
 })
 
-cartRoute.post('/add',authenticate, async (req, res) => {
-    const  productId = req.body;
-   
-    const {user}=req.body;
-    
-    try {
-        
-        let existingProduct = await CartModel.findOne({productId,user});
-       
-        if(existingProduct){
-           return res.status(400).send('product already exists')
-        }
-      
-        let cartItem = new CartModel({ productId, user });
-        await cartItem.save()
-        return res.status(200).send(cartItem);
-        
-    } catch (e) {
-        return res.status(400).send(e.message)
+cartRoute.post("/add", authenticate, async (req, res) => {
+  const productId = req.body;
+  let { user } = req.body;
+
+  try {
+    let existingProduct = await CartModel.findOne({ productId, user });
+
+    if (existingProduct) {
+      let qty = parseFloat(existingProduct.qty + 1);
+      //  let cartItem= await CartModel.findOneAndUpdate({productId,user,qty})
+      let cartItem = new CartModel({ productId, user, qty });
+      await cartItem.save();
+      await CartModel.findOneAndDelete({ productId, user });
+      return res.status(200).send(cartItem);
+    } else {
+      let qty = 1;
+      let cartItem = new CartModel({ productId, user, qty });
+      await cartItem.save();
+      return res.status(200).send(cartItem);
     }
-})
+  } catch (e) {
+    return res.status(400).send(e.message);
+  }
+});
 
-cartRoute.delete('/delete/:id',authenticate, async (req, res) => {
+cartRoute.delete("/delete/:id", authenticate, async (req, res) => {
+  const _id = req.params.id;
 
-    const  productId = req.params.id;
-   
+  try {
+    await CartModel.findOneAndDelete({ _id });
+    res.send({ msg: `Product with id:${_id} has been deleted` });
+  } catch (e) {
+    return res.status(400).send(e.message);
+  }
+});
 
-    try {
-       await CartModel.findOneAndDelete({productId});
-        res.send({msg:`Product with id:${productId} has been deleted`})
-        
-    } catch (e) {
-        return res.status(400).send(e.message)
-    }
-})
 
 
 module.exports = {cartRoute};
