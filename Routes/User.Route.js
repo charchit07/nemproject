@@ -47,7 +47,7 @@ require("dotenv").config()
                 if(result){
                 let token = jwt.sign({userID:user[0]._id},process.env.userkey)  
                 console.log(user)
-                res.send({"msg":"Login Successful",token:token})  ;
+                res.send({"msg":"Login Successful",token:token,user})  ;
                 }else{
                     res.send({"msg":"Wrong Credentials"})
                 }
