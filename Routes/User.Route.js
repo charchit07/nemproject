@@ -46,6 +46,7 @@ require("dotenv").config()
             bcrypt.compare(password,user[0].password,(err,result)=>{
                 if(result){
                 let token = jwt.sign({userID:user[0]._id},process.env.userkey)  
+                console.log(user)
                 res.send({"msg":"Login Successful",token:token})  ;
                 }else{
                     res.send({"msg":"Wrong Credentials"})
