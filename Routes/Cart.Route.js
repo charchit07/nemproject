@@ -43,6 +43,17 @@ cartRoute.post("/add", authenticate, async (req, res) => {
   }
 });
 
+cartRoute.patch("/update/:id", authenticate, async (req, res) => {
+    const _id = req.params.id;
+    const payload = req.body;
+    try {
+      await CartModel.findOneAndUpdate({ _id },payload);
+      res.send({ msg: `Product with id:${_id} has been updated` });
+    } catch (e) {
+      return res.status(400).send(e.message);
+    }
+  });
+
 cartRoute.delete("/delete/:id", authenticate, async (req, res) => {
   const _id = req.params.id;
   try {
